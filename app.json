@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "auth-login",
+    "scheme": "com.kevrodriguez.authlogin",
     "slug": "auth-login",
     "version": "1.0.0",
     "orientation": "portrait",
