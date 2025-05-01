@@ -13,37 +13,19 @@ export default function App() {
 
   const [session, setSession] = useState<Session | null>(null)
 
-
-  AppState.addEventListener('change', (state) => {
-      console.log('AppState changed detected:', state)
-
-      if (state === 'active') {
-          supabase.auth.startAutoRefresh()
-
-          supabase.auth.getSession().then(({ data: { session } }) => {
-            setSession(session)
-          })
-      
-          supabase.auth.onAuthStateChange((_event, session) => {
-            setSession(session)
-          })
-          
-          
-      } else {
-          supabase.auth.stopAutoRefresh()
-      }
-  })
   
 
-  // useEffect(() => {
-  //   supabase.auth.getSession().then(({ data: { session } }) => {
-  //     setSession(session)
-  //   })
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      console.log('Session:', session)
+    })
 
-  //   supabase.auth.onAuthStateChange((_event, session) => {
-  //     setSession(session)
-  //   })
-  // }, [])
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+      console.log('Session changed:', session)
+    })
+  }, [])
 
   return (
     <View>
