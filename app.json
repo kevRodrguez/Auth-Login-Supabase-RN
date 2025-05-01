@@ -2,6 +2,10 @@
   "expo": {
     "name": "auth-login",
     "scheme": "com.kevrodriguez.authlogin",
+    "extra": {
+      "supabaseUrl": "https://xzjiffssknfdwzynrowk.supabase.co",
+      "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6amlmZnNza25mZHd6eW5yb3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NDA4ODYsImV4cCI6MjA2MTUxNjg4Nn0.d7euXGzmkZhb2Lf4jS-gUPBiguIPBkETCJMmMBU2P6o"
+    },
     "slug": "auth-login",
     "version": "1.0.0",
     "orientation": "portrait",

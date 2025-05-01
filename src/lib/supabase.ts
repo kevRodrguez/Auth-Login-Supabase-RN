@@ -2,13 +2,22 @@ import { AppState } from 'react-native'
 import 'react-native-url-polyfill/auto'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createClient } from '@supabase/supabase-js'
-import { envs } from '../config/envs'
+
+import * as AuthSession from 'expo-auth-session';
+
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL?.toString() || '';
 const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY?.toString() || '';
 
 // console.log('Supabase URL:', supabaseUrl)
 // console.log('Supabase Anon Key:', supabaseAnonKey)
+
+// Generate a redirect URI based on the custom scheme defined in app.json
+export const redirectUri = AuthSession.makeRedirectUri({
+    scheme: 'com.kevrodriguez.authlogin',
+    preferLocalhost: true,
+    useProxy: true,
+} as any);
 
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
