@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "auth-login",
+    "owner": "kevrodriguez",
     "scheme": "com.kevrodriguez.authlogin",
     "extra": {
       "supabaseUrl": "https://xzjiffssknfdwzynrowk.supabase.co",

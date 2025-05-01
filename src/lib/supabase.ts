@@ -2,6 +2,10 @@ import { AppState } from 'react-native'
 import 'react-native-url-polyfill/auto'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createClient } from '@supabase/supabase-js'
+import { Platform } from 'react-native';
+
+import { makeRedirectUri } from 'expo-auth-session';
+
 
 import * as AuthSession from 'expo-auth-session';
 
@@ -13,11 +17,23 @@ const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY?.toString() ||
 // console.log('Supabase Anon Key:', supabaseAnonKey)
 
 // Generate a redirect URI based on the custom scheme defined in app.json
-export const redirectUri = AuthSession.makeRedirectUri({
+
+// Scheme para producción (standalone builds / web)
+const nativeRedirect = makeRedirectUri({
     scheme: 'com.kevrodriguez.authlogin',
-    preferLocalhost: true,
+    preferLocalhost: false,
+    useProxy: true,
+}as any);
+
+// Proxy para Expo Go (túnel, emulador, Expo Go app)
+const expoProxyRedirect = AuthSession.makeRedirectUri({
     useProxy: true,
 } as any);
+
+export const authRedirect = Platform.OS === 'web'
+    ? nativeRedirect
+    : expoProxyRedirect;
+    
 
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
@@ -34,10 +50,13 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 // to receive `onAuthStateChange` events with the `TOKEN_REFRESHED` or
 // `SIGNED_OUT` event if the user's session is terminated. This should
 // only be registered once.
-AppState.addEventListener('change', (state) => {
-    if (state === 'active') {
-        supabase.auth.startAutoRefresh()
-    } else {
-        supabase.auth.stopAutoRefresh()
-    }
-})
+
+// AppState.addEventListener('change', (state) => {
+//     console.log('AppState changed detected:', state)
+//     if (state === 'active') {
+//         supabase.auth.startAutoRefresh()
+        
+//     } else {
+//         supabase.auth.stopAutoRefresh()
+//     }
+// })

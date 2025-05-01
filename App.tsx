@@ -2,7 +2,7 @@ import 'react-native-url-polyfill/auto'
 import { useState, useEffect } from 'react'
 import { supabase } from './src/lib/supabase'
 import Auth from './src/components/Auth'
-import { View, Text, Pressable } from 'react-native'
+import { View, Text, Pressable, AppState } from 'react-native'
 import { Session } from '@supabase/supabase-js'
 import signInWithGoogle from './src/components/AuthGoogle'
 import { Button } from '@rneui/themed'
@@ -10,19 +10,40 @@ import * as AuthSession from 'expo-auth-session';
 import LogoutButton from './src/components/Logout'
 
 export default function App() {
+
   const [session, setSession] = useState<Session | null>(null)
 
 
+  AppState.addEventListener('change', (state) => {
+      console.log('AppState changed detected:', state)
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
+      if (state === 'active') {
+          supabase.auth.startAutoRefresh()
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
-  }, [])
+          supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session)
+          })
+      
+          supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session)
+          })
+          
+          
+      } else {
+          supabase.auth.stopAutoRefresh()
+      }
+  })
+  
+
+  // useEffect(() => {
+  //   supabase.auth.getSession().then(({ data: { session } }) => {
+  //     setSession(session)
+  //   })
+
+  //   supabase.auth.onAuthStateChange((_event, session) => {
+  //     setSession(session)
+  //   })
+  // }, [])
 
   return (
     <View>
