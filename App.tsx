@@ -7,25 +7,38 @@ import { Session } from '@supabase/supabase-js'
 import signInWithGoogle from './src/components/AuthGoogle'
 import { Button } from '@rneui/themed'
 import * as AuthSession from 'expo-auth-session';
+
+import * as WebBrowser from 'expo-web-browser';
+
 import LogoutButton from './src/components/Logout'
 
-export default function App() {
 
-  const [session, setSession] = useState<Session | null>(null)
+
+export default function App() {
+  WebBrowser.maybeCompleteAuthSession();
 
   
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-      console.log('Session:', session)
-    })
+  const [session, setSession] = useState<Session | null>(null);
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-      console.log('Session changed:', session)
-    })
-  }, [])
+  useEffect(() => {
+    WebBrowser.maybeCompleteAuthSession();
+    // 1. Obtén la sesión inicial
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    // 2. Escucha cambios de estado de autenticación
+    const { data: authListener } = supabase.auth.onAuthStateChange( (_event, session) => {
+        console.log('Auth state changed:',_event , 'session:', session);
+        setSession(session);
+      }
+    );
+
+    return () => {
+      authListener?.subscription.unsubscribe();
+    };
+  }, []);
 
   return (
     <View>

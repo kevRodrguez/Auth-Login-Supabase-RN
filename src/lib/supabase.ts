@@ -6,12 +6,13 @@ import { Platform } from 'react-native';
 
 import { makeRedirectUri } from 'expo-auth-session';
 
-
 import * as AuthSession from 'expo-auth-session';
 
+import * as WebBrowser from 'expo-web-browser';
+WebBrowser.maybeCompleteAuthSession();
 
-const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL?.toString() || '';
-const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY?.toString() || '';
+const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!;
 
 // console.log('Supabase URL:', supabaseUrl)
 // console.log('Supabase Anon Key:', supabaseAnonKey)
@@ -22,7 +23,6 @@ const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY?.toString() ||
 const nativeRedirect = makeRedirectUri({
     scheme: 'com.kevrodriguez.authlogin',
     preferLocalhost: false,
-    useProxy: true,
 }as any);
 
 // Proxy para Expo Go (túnel, emulador, Expo Go app)
@@ -41,7 +41,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
         storage: AsyncStorage,
         autoRefreshToken: true,
         persistSession: true,
-        detectSessionInUrl: false,
+        detectSessionInUrl: true,
     },
 })
 
@@ -55,8 +55,10 @@ AppState.addEventListener('change', (state) => {
     console.log('AppState changed detected:', state)
     if (state === 'active') {
         supabase.auth.startAutoRefresh()
+        console.log('AppState active, starting auto refresh')
         
     } else {
         supabase.auth.stopAutoRefresh()
+        console.log('AppState inactive, stopping auto refresh')
     }
 })
