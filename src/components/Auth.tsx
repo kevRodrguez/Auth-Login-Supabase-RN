@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Alert, StyleSheet, View } from 'react-native'
 import { supabase } from '../lib/supabase'
 import { Button, Input } from '@rneui/themed'
+import { Ionicons } from '@expo/vector-icons';
+
 
 export default function Auth() {
     const [email, setEmail] = useState('')
@@ -35,12 +37,12 @@ export default function Auth() {
     }
 
     return (
-        <View style={styles.container}>
+        <View>
             <View style={[styles.verticallySpaced, styles.mt20]}>
                 <Input
                     label="Email"
                     keyboardType='email-address'
-                    leftIcon={{ type: 'font-awesome', name: 'envelope' }}
+                    leftIcon={{ type: 'ionicon', name: 'mail-outline' }}
                     onChangeText={(text) => setEmail(text)}
                     value={email}
                     placeholder="email@address.com"
@@ -50,7 +52,7 @@ export default function Auth() {
             <View style={styles.verticallySpaced}>
                 <Input
                     label="Password"
-                    leftIcon={{ type: 'font-awesome', name: 'lock' }}
+                    leftIcon={{ type: 'ionicon', name: 'lock-closed-outline' }}
                     onChangeText={(text) => setPassword(text)}
                     value={password}
                     secureTextEntry={true}
@@ -58,11 +60,11 @@ export default function Auth() {
                     autoCapitalize={'none'}
                 />
             </View>
-            <View style={[styles.verticallySpaced, styles.mt20]}>
-                <Button title="Sign in" disabled={loading} onPress={() => signInWithEmail()} />
+            <View style={{}}>
+                <Button title="Sign in" disabled={loading} onPress={() => signInWithEmail()} buttonStyle={styles.button} titleStyle={styles.buttonTitle} color='#0161fd' />
+                <Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} buttonStyle={styles.button} titleStyle={styles.buttonTitle} color="#b4deff"/>
             </View>
             <View style={styles.verticallySpaced}>
-                <Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} />
             </View>
         </View>
     )
@@ -80,5 +82,18 @@ const styles = StyleSheet.create({
     },
     mt20: {
         marginTop: 20,
+    },
+    button: {
+        borderRadius: 8,
+        paddingVertical: 10,
+        marginVertical: 5,
+        borderWidth: 1,
+        borderColor: '#e5e5e5',
+
+    },
+    buttonTitle: {
+        color: '#ffff',
+        fontWeight: '600',
+        marginLeft: 8,
     },
 })

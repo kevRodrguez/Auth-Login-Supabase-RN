@@ -23,27 +23,35 @@ const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!;
 const nativeRedirect = makeRedirectUri({
     scheme: 'com.kevrodriguez.authlogin',
     preferLocalhost: false,
-}as any);
+} as any);
 
 // Proxy para Expo Go (túnel, emulador, Expo Go app)
 const expoProxyRedirect = AuthSession.makeRedirectUri({
+    path: 'auth/callback',
     useProxy: true,
 } as any);
 
 export const authRedirect = Platform.OS === 'web'
     ? nativeRedirect
     : expoProxyRedirect;
-    
+
 
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
+        flowType: 'pkce',
         storage: AsyncStorage,
         autoRefreshToken: true,
         persistSession: true,
-        detectSessionInUrl: true,
+        detectSessionInUrl: false   // React Native no tiene window.location
     },
 })
+
+// Log global de cambios de sesión para depurar todo el flujo
+supabase.auth.onAuthStateChange((event, session) => {
+    console.log('[supabase] Auth state changed:', event);
+    console.log('[supabase] Session object:', session);
+});
 
 // Tells Supabase Auth to continuously refresh the session automatically
 // if the app is in the foreground. When this is added, you will continue
@@ -56,7 +64,7 @@ AppState.addEventListener('change', (state) => {
     if (state === 'active') {
         supabase.auth.startAutoRefresh()
         console.log('AppState active, starting auto refresh')
-        
+
     } else {
         supabase.auth.stopAutoRefresh()
         console.log('AppState inactive, stopping auto refresh')

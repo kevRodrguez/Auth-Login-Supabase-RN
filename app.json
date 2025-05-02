@@ -5,7 +5,10 @@
     "scheme": "com.kevrodriguez.authlogin",
     "extra": {
       "supabaseUrl": "https://xzjiffssknfdwzynrowk.supabase.co",
-      "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6amlmZnNza25mZHd6eW5yb3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NDA4ODYsImV4cCI6MjA2MTUxNjg4Nn0.d7euXGzmkZhb2Lf4jS-gUPBiguIPBkETCJMmMBU2P6o"
+      "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh6amlmZnNza25mZHd6eW5yb3drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NDA4ODYsImV4cCI6MjA2MTUxNjg4Nn0.d7euXGzmkZhb2Lf4jS-gUPBiguIPBkETCJMmMBU2P6o",
+      "eas": {
+        "projectId": "bcb87429-c6fd-4ab5-b52d-eba03241de66"
+      }
     },
     "slug": "auth-login",
     "version": "1.0.0",
@@ -19,13 +22,15 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kevrodriguez.authlogin"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.kevrodriguez.authlogin"
     },
     "web": {
       "favicon": "./assets/favicon.png"

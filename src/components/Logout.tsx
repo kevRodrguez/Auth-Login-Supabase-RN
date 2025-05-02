@@ -11,7 +11,7 @@ export default function LogoutButton() {
     };
 
     return (
-        <Button onPress={handleLogout}>
+        <Button onPress={handleLogout} style={{ marginTop: 20 }}>
             Cerrar sesión
         </Button>
     );
