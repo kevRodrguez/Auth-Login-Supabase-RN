@@ -1,4 +1,6 @@
- 1. para levantar ejecutar los siguientes comandos
+1. Clonar archivo .env.template y renombrar a .env y establecer las keys
+
+2. para levantar ejecutar los siguientes comandos
 
  ```
  npm install
