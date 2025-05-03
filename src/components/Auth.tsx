@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Alert, StyleSheet, View } from 'react-native'
+import { Alert, KeyboardAvoidingView, StyleSheet, View } from 'react-native'
 import { supabase } from '../lib/supabase'
 import { Button, Input } from '@rneui/themed'
 import { Ionicons } from '@expo/vector-icons';
+import ThemedButton from './ThemedButton';
 
 
 export default function Auth() {
@@ -38,34 +39,51 @@ export default function Auth() {
 
     return (
         <View>
-            <View style={[styles.verticallySpaced, styles.mt20]}>
-                <Input
-                    label="Email"
-                    keyboardType='email-address'
-                    leftIcon={{ type: 'ionicon', name: 'mail-outline' }}
-                    onChangeText={(text) => setEmail(text)}
-                    value={email}
-                    placeholder="email@address.com"
-                    autoCapitalize={'none'}
-                />
-            </View>
-            <View style={styles.verticallySpaced}>
-                <Input
-                    label="Password"
-                    leftIcon={{ type: 'ionicon', name: 'lock-closed-outline' }}
-                    onChangeText={(text) => setPassword(text)}
-                    value={password}
-                    secureTextEntry={true}
-                    placeholder="Password"
-                    autoCapitalize={'none'}
-                />
-            </View>
-            <View style={{}}>
-                <Button title="Sign in" disabled={loading} onPress={() => signInWithEmail()} buttonStyle={styles.button} titleStyle={styles.buttonTitle} color='#0161fd' />
-                <Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} buttonStyle={styles.button} titleStyle={styles.buttonTitle} color="#b4deff"/>
-            </View>
-            <View style={styles.verticallySpaced}>
-            </View>
+
+                <View style={[styles.verticallySpaced, styles.mt20]}>
+                    <Input
+                        label="Email"
+                        keyboardType='email-address'
+                        leftIcon={{ type: 'ionicon', name: 'mail-outline' }}
+                        onChangeText={(text) => setEmail(text)}
+                        value={email}
+                        placeholder="email@address.com"
+                        autoCapitalize={'none'}
+                    />
+                </View>
+                <View style={styles.verticallySpaced}>
+                    <Input
+                        label="Password"
+                        leftIcon={{ type: 'ionicon', name: 'lock-closed-outline' }}
+                        onChangeText={(text) => setPassword(text)}
+                        value={password}
+                        secureTextEntry={true}
+                        placeholder="Password"
+                        autoCapitalize={'none'}
+                    />
+                </View>
+                <View>
+                    <ThemedButton
+                        style={[styles.button, { backgroundColor: '#0161fd' }]}
+                        textStyle={styles.buttonTitle}
+                        onPress={() => signInWithEmail()}
+                    >
+                        Iniciar Sesión
+                    </ThemedButton>
+
+                    <ThemedButton
+                        style={[styles.button, { backgroundColor: '#b4deff' }]}
+                        textStyle={styles.buttonTitle}
+                        onPress={() => signUpWithEmail()}
+                    >
+                        Crear Cuenta
+                    </ThemedButton>
+
+
+                </View>
+                <View style={styles.verticallySpaced}>
+                </View>
+            
         </View>
     )
 }
@@ -89,7 +107,6 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         borderWidth: 1,
         borderColor: '#e5e5e5',
-
     },
     buttonTitle: {
         color: '#ffff',

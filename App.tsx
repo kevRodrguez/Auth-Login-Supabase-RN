@@ -11,6 +11,7 @@ import Auth from './src/components/Auth';
 import LogoutButton from './src/components/Logout';
 
 import { Image } from 'expo-image';
+import ThemedButton from './src/components/ThemedButton';
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -29,6 +30,7 @@ export default function App() {
         console.log('[App] onAuthStateChange:', event);
         console.log('[App] New session object:', session);
         setSession(session);
+        // console.log('[App] Session:', session)
       }
     );
 
@@ -54,7 +56,7 @@ export default function App() {
           <View style={styles.card}>
 
             <Auth />
-            <Button
+            {/* <Button
               title="Continuar con Google"
               onPress={signInWithOAuth}
               buttonStyle={styles.googleButton}
@@ -67,7 +69,15 @@ export default function App() {
                 />
               }
               iconContainerStyle={styles.googleIconContainer}
-            />
+            /> */}
+            <ThemedButton
+              style={styles.googleButton}
+              onPress={signInWithOAuth}
+              textStyle={styles.googleTitle}
+              logoImage="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-1024.png"
+            >
+              Continuar con Google
+            </ThemedButton>
           </View>
         </>
       ) : (
@@ -112,7 +122,7 @@ const styles = StyleSheet.create({
     // elevation: 3, // Android shadow
   },
   googleButton: {
-    backgroundColor: '#fff',
+    backgroundColor: '#ffff',
     borderRadius: 8,
     paddingVertical: 12,
     borderWidth: 1,
